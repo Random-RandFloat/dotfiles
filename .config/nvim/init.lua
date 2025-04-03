@@ -1,9 +1,53 @@
+-- Setup colors.
+vim.cmd([[colorscheme evening]])
 vim.cmd([[highlight Normal ctermbg=NONE guibg=NONE]])
+vim.cmd([[highlight Comment cterm=italic gui=italic]])
+vim.cmd([[highlight EndOfBuffer ctermbg=NONE guibg=NONE]])
+vim.cmd([[highlight WinSeparator ctermfg=white ctermbg=NONE guifg=white guibg=NONE]])
+vim.cmd([[highlight StatusLine ctermfg=black guifg=black]])
+vim.cmd([[highlight Visual ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE cterm=inverse gui=inverse]])
+-- Setup other misc things.
 vim.opt.shell = "/usr/bin/zsh"
 vim.opt.termguicolors = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = false
+vim.opt.termguicolors = true
+
+-- Bindings
+local map = vim.api.nvim_set_keymap
+local opts = {noremap=true, silent=true}
+map("n", "<A-,>", "<Cmd>BufferPrevious<CR>", opts)
+map("n", "<A-.>", "<Cmd>BufferNext<CR>", opts)
+map("n", "<A-<>", "<Cmd>BufferMovePrevious<CR>", opts)
+map("n", "<A->>", "<Cmd>BufferMoveNext<CR>", opts)
+map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
+
+vim.keymap.set({"i", "s"}, "<Tab>", function()
+	if vim.snippet.active({direction=1}) then
+		return "<Cmd>lua vim.snippet.jump(1)<CR>"
+	else
+		return "<Tab>"
+	end
+end, {expr=true, silent=true})
+
+vim.keymap.set({"i", "s"}, "<S-Tab>", function()
+	if vim.snippet.active({direction=-1}) then
+		return "<Cmd>lua vim.snippet.jump(-1)<CR>"
+	else
+		return "<Tab>"
+	end
+end, {expr=true, silent=true})
+
+map("n", "<A-/>", "<Cmd>Neotree<CR><C-W>l<Cmd>hor term<CR><Cmd>res 15<CR><C-W>r<C-W>k", opts)
+
+map("n", "<C-E>", "<Cmd>lua vim.diagnostic.open_float()<CR>", opts)
+
+vim.g.barbar_auto_setup = false -- Disable auto-setup
+
+require("barbar").setup{
+	exclude_name = {"zsh"},
+}
 
 require("nvim-treesitter.configs").setup {
 	highlight = {
@@ -40,8 +84,13 @@ cmp.setup({
 	},
 })
 
+vim.g.python_recommended_style = 0
+
 local lsp = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+lsp.rust_analyzer.setup({})
+lsp.gdscript.setup({})
+lsp.pyright.setup({})
 lsp.clangd.setup({
 	capabilities = capabilities
 })
@@ -60,12 +109,20 @@ return require("packer").startup(function(use)
 		}
 	}
 
-	use "dense-analysis/ale"
+	-- use "dense-analysis/ale"
 	use "nvim-treesitter/nvim-treesitter"
 
 	use "neovim/nvim-lspconfig"
 	use "hrsh7th/cmp-nvim-lsp"
 	use "hrsh7th/nvim-cmp"
 	use "onsails/lspkind.nvim"
+	use {
+		"romgrk/barbar.nvim",
+		branch = "v1.9.1",
+		requires = {
+			"lewis6991/gitsigns.nvim",
+			"nvim-tree/nvim-web-devicons",
+		}
+	}
 
 end)
