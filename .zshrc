@@ -62,6 +62,8 @@ znap source RobSis/zsh-completion-generator
 
 znap source zsh-users/zsh-syntax-highlighting
 
+## Aliases
+alias mkcd='. mkcd.sh'
 
 ## Keybindings section
 bindkey -e
