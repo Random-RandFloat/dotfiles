@@ -1,0 +1,16 @@
+BasedOnStyle: LLVM
+# I can't live with spaces
+IndentWidth: 4
+UseTab: Always
+TabWidth: 4
+
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: false
+  AfterFunctionDefinitionName: false
+
+Language: Cpp
+# Have pointer asterisks next to
+# the type, instead of the variable.
+DerivePointerAlignment: false
+PointerAlignment: Left
