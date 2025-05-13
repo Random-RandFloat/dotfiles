@@ -9,8 +9,17 @@ SpaceBeforeParensOptions:
   AfterControlStatements: false
   AfterFunctionDefinitionName: false
 
+AlignConsecutiveAssignments: AcrossComments
+AlignConsecutiveDeclarations: AcrossComments
+
 Language: Cpp
 # Have pointer asterisks next to
 # the type, instead of the variable.
 DerivePointerAlignment: false
 PointerAlignment: Left
+
+AlignConsecutiveBitFields: AcrossComments
+AlignConsecutiveMacros: AcrossComments
+
+AllowShortCaseExpressionOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
